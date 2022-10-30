@@ -1,0 +1,108 @@
+<html>
+<head>
+<title>DBHelper.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+DBHelper.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.sample2</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.content.ContentValues</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.database.Cursor</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.database.sqlite.SQLiteDatabase</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.database.sqlite.SQLiteOpenHelper</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">DBHelper </span><span class="s0">extends </span><span class="s1">SQLiteOpenHelper {</span>
+    <span class="s0">public </span><span class="s1">DBHelper(Context context) {</span>
+        <span class="s0">super</span><span class="s1">(context</span><span class="s0">, </span><span class="s2">&quot;Userdata.db&quot;</span><span class="s0">, null, </span><span class="s3">1</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onCreate(SQLiteDatabase DB) {</span>
+        <span class="s1">DB.execSQL(</span><span class="s2">&quot;create Table Userdetails(name TEXT, usn TEXT primary key, branch TEXT, semester TEXT, Phone_Number TEXT, Parent_Phone_Number TEXT, Alternate_Phone_Number TEXT, DOB TEXT)&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onUpgrade(SQLiteDatabase DB</span><span class="s0">, int </span><span class="s1">i</span><span class="s0">, int </span><span class="s1">i1) {</span>
+        <span class="s1">DB.execSQL(</span><span class="s2">&quot;drop Table if exists Userdetails&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">Boolean insertuserdata(String name</span><span class="s0">, </span><span class="s1">String usn</span><span class="s0">, </span><span class="s1">String branch</span><span class="s0">, </span><span class="s1">String semester</span><span class="s0">, </span><span class="s1">String Phone_Number</span><span class="s0">, </span><span class="s1">String Parent_Phone_Number</span><span class="s0">, </span><span class="s1">String Alternate_Phone_number</span><span class="s0">, </span><span class="s1">String DOB) {</span>
+        <span class="s1">SQLiteDatabase DB = </span><span class="s0">this</span><span class="s1">.getWritableDatabase()</span><span class="s0">;</span>
+        <span class="s1">ContentValues contentValues = </span><span class="s0">new </span><span class="s1">ContentValues()</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;Name&quot;</span><span class="s0">, </span><span class="s1">name)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;USN&quot;</span><span class="s0">, </span><span class="s1">usn)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;Branch&quot;</span><span class="s0">, </span><span class="s1">branch)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;Semester&quot;</span><span class="s0">, </span><span class="s1">semester)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;Phone Number&quot;</span><span class="s0">, </span><span class="s1">Phone_Number)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;Parent Phone Number&quot;</span><span class="s0">, </span><span class="s1">Parent_Phone_Number)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;Alternate Phone Number&quot;</span><span class="s0">, </span><span class="s1">Alternate_Phone_number)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;DOB&quot;</span><span class="s0">, </span><span class="s1">DOB)</span><span class="s0">;</span>
+        <span class="s0">long </span><span class="s1">result = DB.insert(</span><span class="s2">&quot;Userdetails&quot;</span><span class="s0">, null, </span><span class="s1">contentValues)</span><span class="s0">;</span>
+        <span class="s0">if </span><span class="s1">(result == -</span><span class="s3">1</span><span class="s1">) {</span>
+            <span class="s0">return false;</span>
+        <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+            <span class="s0">return true;</span>
+        <span class="s1">}</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">Boolean updateuserdata(String name</span><span class="s0">, </span><span class="s1">String usn</span><span class="s0">, </span><span class="s1">String branch</span><span class="s0">, </span><span class="s1">String semester</span><span class="s0">, </span><span class="s1">String Phone_Number</span><span class="s0">, </span><span class="s1">String Parent_Phone_Number</span><span class="s0">, </span><span class="s1">String Alternate_Phone_number</span><span class="s0">, </span><span class="s1">String DOB) {</span>
+        <span class="s1">SQLiteDatabase DB = </span><span class="s0">this</span><span class="s1">.getWritableDatabase()</span><span class="s0">;</span>
+        <span class="s1">ContentValues contentValues = </span><span class="s0">new </span><span class="s1">ContentValues()</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;Branch&quot;</span><span class="s0">, </span><span class="s1">branch)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;Semester&quot;</span><span class="s0">, </span><span class="s1">semester)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;Phone Number&quot;</span><span class="s0">, </span><span class="s1">Phone_Number)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;Parent Phone Number&quot;</span><span class="s0">, </span><span class="s1">Parent_Phone_Number)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;Alternate Phone Number&quot;</span><span class="s0">, </span><span class="s1">Alternate_Phone_number)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(</span><span class="s2">&quot;DOB&quot;</span><span class="s0">, </span><span class="s1">DOB)</span><span class="s0">;</span>
+        <span class="s1">Cursor cursor = DB.rawQuery(</span><span class="s2">&quot;Select * from Userdetails where usn = ?&quot;</span><span class="s0">, new </span><span class="s1">String[]{name})</span><span class="s0">;</span>
+        <span class="s0">if </span><span class="s1">(cursor.getCount() &gt; </span><span class="s3">0</span><span class="s1">) {</span>
+            <span class="s0">long </span><span class="s1">result = DB.update(</span><span class="s2">&quot;Userdetails&quot;</span><span class="s0">, </span><span class="s1">contentValues</span><span class="s0">, </span><span class="s2">&quot;usn=?&quot;</span><span class="s0">, new </span><span class="s1">String[]{usn})</span><span class="s0">;</span>
+            <span class="s0">if </span><span class="s1">(result == -</span><span class="s3">1</span><span class="s1">) {</span>
+                <span class="s0">return false;</span>
+            <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                <span class="s0">return true;</span>
+            <span class="s1">}</span>
+        <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+            <span class="s0">return false;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">Boolean deletedata(String usn</span><span class="s0">, </span><span class="s1">String usnTXT) {</span>
+        <span class="s1">SQLiteDatabase DB = </span><span class="s0">this</span><span class="s1">.getWritableDatabase()</span><span class="s0">;</span>
+        <span class="s1">Cursor cursor = DB.rawQuery(</span><span class="s2">&quot;Select * from Userdetails where usn = ?&quot;</span><span class="s0">, new </span><span class="s1">String[]{usn})</span><span class="s0">;</span>
+        <span class="s0">if </span><span class="s1">(cursor.getCount() &gt; </span><span class="s3">0</span><span class="s1">) {</span>
+            <span class="s0">long </span><span class="s1">result = DB.delete(</span><span class="s2">&quot;Userdetails&quot;</span><span class="s0">, </span><span class="s2">&quot;usn=?&quot;</span><span class="s0">, new </span><span class="s1">String[]{usn})</span><span class="s0">;</span>
+            <span class="s0">if </span><span class="s1">(result == -</span><span class="s3">1</span><span class="s1">) {</span>
+                <span class="s0">return false;</span>
+            <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                <span class="s0">return true;</span>
+            <span class="s1">}</span>
+        <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+            <span class="s0">return false;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">Cursor getdata() {</span>
+        <span class="s1">SQLiteDatabase DB = </span><span class="s0">this</span><span class="s1">.getWritableDatabase()</span><span class="s0">;</span>
+        <span class="s1">Cursor cursor = DB.rawQuery(</span><span class="s2">&quot;Select * from Userdetails where usn = ?&quot;</span><span class="s0">, null</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">return </span><span class="s1">cursor</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

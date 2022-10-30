@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>MainActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.example.sample2</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AlertDialog</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.database.Cursor</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">MainActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+    <span class="s1">EditText name</span><span class="s0">, </span><span class="s1">usn</span><span class="s0">, </span><span class="s1">branch</span><span class="s0">, </span><span class="s1">semester</span><span class="s0">, </span><span class="s1">Phone_Number</span><span class="s0">, </span><span class="s1">Parent_Phone_Number</span><span class="s0">, </span><span class="s1">Alternate_Phone_Number</span><span class="s0">, </span><span class="s1">DOB</span><span class="s0">;</span>
+    <span class="s1">Button insert</span><span class="s0">, </span><span class="s1">update</span><span class="s0">, </span><span class="s1">delete</span><span class="s0">, </span><span class="s1">view</span><span class="s0">;</span>
+    <span class="s1">DBHelper DB</span><span class="s0">;</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_main)</span><span class="s0">;</span>
+        <span class="s1">name = findViewById(R.id.name)</span><span class="s0">;</span>
+        <span class="s1">usn = findViewById(R.id.usn)</span><span class="s0">;</span>
+        <span class="s1">branch = findViewById(R.id.branch)</span><span class="s0">;</span>
+        <span class="s1">semester = findViewById(R.id.semester)</span><span class="s0">;</span>
+        <span class="s1">Phone_Number = findViewById(R.id.Phone_Number)</span><span class="s0">;</span>
+        <span class="s1">Parent_Phone_Number = findViewById(R.id.Parent_Phone_Number)</span><span class="s0">;</span>
+        <span class="s1">Alternate_Phone_Number = findViewById(R.id.Alternate_Phone_Number)</span><span class="s0">;</span>
+        <span class="s1">DOB = findViewById(R.id.DOB)</span><span class="s0">;</span>
+
+        <span class="s1">insert = findViewById(R.id.btnInsert)</span><span class="s0">;</span>
+        <span class="s1">update = findViewById(R.id.btnUpdate)</span><span class="s0">;</span>
+        <span class="s1">delete = findViewById(R.id.btnDelete)</span><span class="s0">;</span>
+        <span class="s1">view = findViewById(R.id.btnView)</span><span class="s0">;</span>
+        <span class="s1">DB = </span><span class="s0">new </span><span class="s1">DBHelper(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">insert.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View view) {</span>
+                <span class="s1">String nameTXT = name.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String usnTXT = usn.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String branchTXT = branch.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String semesterTXT = semester.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String Phone_NumberTXT = Phone_Number.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String Parent_Phone_NumberTXT = Parent_Phone_Number.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String Alternate_Phone_NumberTXT = Alternate_Phone_Number.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String DOBTXT = DOB.getText().toString()</span><span class="s0">;</span>
+
+                <span class="s0">boolean </span><span class="s1">checkinsertdata = DB.insertuserdata(nameTXT</span><span class="s0">, </span><span class="s1">usnTXT</span><span class="s0">, </span><span class="s1">branchTXT</span><span class="s0">, </span><span class="s1">semesterTXT</span><span class="s0">, </span><span class="s1">Phone_NumberTXT</span><span class="s0">, </span><span class="s1">Parent_Phone_NumberTXT</span><span class="s0">, </span><span class="s1">Alternate_Phone_NumberTXT</span><span class="s0">, </span><span class="s1">DOBTXT)</span><span class="s0">;</span>
+                <span class="s0">if </span><span class="s1">(checkinsertdata == </span><span class="s0">true</span><span class="s1">) {</span>
+                    <span class="s1">Toast.makeText(MainActivity.</span><span class="s0">this, </span><span class="s2">&quot;New Entry Inserted&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                    <span class="s1">Toast.makeText(MainActivity.</span><span class="s0">this, </span><span class="s2">&quot;New Entry Not Inserted&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">update.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View view) {</span>
+                <span class="s1">String nameTXT = name.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String usnTXT = usn.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String branchTXT = branch.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String semesterTXT = semester.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String Phone_NumberTXT = Phone_Number.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String Parent_Phone_NumberTXT = Parent_Phone_Number.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String Alternate_Phone_NumberTXT = Alternate_Phone_Number.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String DOBTXT = DOB.getText().toString()</span><span class="s0">;</span>
+
+                <span class="s0">boolean </span><span class="s1">checkupdatedata = DB.updateuserdata(nameTXT</span><span class="s0">, </span><span class="s1">usnTXT</span><span class="s0">, </span><span class="s1">branchTXT</span><span class="s0">, </span><span class="s1">semesterTXT</span><span class="s0">, </span><span class="s1">Phone_NumberTXT</span><span class="s0">, </span><span class="s1">Parent_Phone_NumberTXT</span><span class="s0">, </span><span class="s1">Alternate_Phone_NumberTXT</span><span class="s0">, </span><span class="s1">DOBTXT)</span><span class="s0">;</span>
+                <span class="s0">if </span><span class="s1">(checkupdatedata == </span><span class="s0">true</span><span class="s1">) {</span>
+                    <span class="s1">Toast.makeText(MainActivity.</span><span class="s0">this, </span><span class="s2">&quot;Entry Updated&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                    <span class="s1">Toast.makeText(MainActivity.</span><span class="s0">this, </span><span class="s2">&quot;Entry Not Updated&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">delete.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View view) {</span>
+                <span class="s1">String nameTXT = name.getText().toString()</span><span class="s0">;</span>
+                <span class="s1">String usnTXT = usn.getText().toString()</span><span class="s0">;</span>
+                <span class="s0">boolean </span><span class="s1">checkdeletedata = DB.deletedata(nameTXT</span><span class="s0">, </span><span class="s1">usnTXT)</span><span class="s0">;</span>
+                <span class="s0">if </span><span class="s1">(checkdeletedata == </span><span class="s0">true</span><span class="s1">) {</span>
+                    <span class="s1">Toast.makeText(MainActivity.</span><span class="s0">this, </span><span class="s2">&quot;Entry Deleted&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                    <span class="s1">Toast.makeText(MainActivity.</span><span class="s0">this, </span><span class="s2">&quot;Entry Not Deleted&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">view.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s0">public void </span><span class="s1">onClick(View view) {</span>
+                <span class="s1">Cursor res= DB.getdata()</span><span class="s0">;</span>
+                <span class="s0">if</span><span class="s1">(res.getCount()==</span><span class="s3">0</span><span class="s1">) {</span>
+                    <span class="s1">Toast.makeText(MainActivity.</span><span class="s0">this, </span><span class="s2">&quot;No Entry Exists!&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s0">return;</span>
+                <span class="s1">}</span>
+                <span class="s1">StringBuffer buffer = </span><span class="s0">new </span><span class="s1">StringBuffer()</span><span class="s0">;</span>
+                <span class="s0">while</span><span class="s1">(res.moveToNext()) {</span>
+                    <span class="s1">buffer.append(</span><span class="s2">&quot;Name :&quot;</span><span class="s1">+res.getString(</span><span class="s3">0</span><span class="s1">)+</span><span class="s2">&quot;</span><span class="s0">\n</span><span class="s2">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">buffer.append(</span><span class="s2">&quot;USN :&quot;</span><span class="s1">+res.getString(</span><span class="s3">0</span><span class="s1">)+</span><span class="s2">&quot;</span><span class="s0">\n</span><span class="s2">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">buffer.append(</span><span class="s2">&quot;Branch :&quot;</span><span class="s1">+res.getString(</span><span class="s3">0</span><span class="s1">)+</span><span class="s2">&quot;</span><span class="s0">\n</span><span class="s2">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">buffer.append(</span><span class="s2">&quot;Semester :&quot;</span><span class="s1">+res.getString(</span><span class="s3">0</span><span class="s1">)+</span><span class="s2">&quot;</span><span class="s0">\n</span><span class="s2">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">buffer.append(</span><span class="s2">&quot;Phone Number :&quot;</span><span class="s1">+res.getString(</span><span class="s3">0</span><span class="s1">)+</span><span class="s2">&quot;</span><span class="s0">\n</span><span class="s2">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">buffer.append(</span><span class="s2">&quot;Parent's Phone Number :&quot;</span><span class="s1">+res.getString(</span><span class="s3">0</span><span class="s1">)+</span><span class="s2">&quot;</span><span class="s0">\n</span><span class="s2">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">buffer.append(</span><span class="s2">&quot;Alternate Phone Number :&quot;</span><span class="s1">+res.getString(</span><span class="s3">0</span><span class="s1">)+</span><span class="s2">&quot;</span><span class="s0">\n</span><span class="s2">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">buffer.append(</span><span class="s2">&quot;DOB :&quot;</span><span class="s1">+res.getString(</span><span class="s3">0</span><span class="s1">)+</span><span class="s2">&quot;</span><span class="s0">\n\n</span><span class="s2">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+
+                <span class="s1">AlertDialog.Builder builder = </span><span class="s0">new </span><span class="s1">AlertDialog.Builder(MainActivity.</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">builder.setCancelable(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">builder.setTitle(</span><span class="s2">&quot;User Entries&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">builder.setMessage(buffer.toString())</span><span class="s0">;</span>
+                <span class="s1">builder.show()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>
